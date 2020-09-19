@@ -5,6 +5,8 @@
  */
 package co.edu.unicundi.logica;
 
+import co.edu.unicundi.exception.ObjectNotFoundException;
+import co.edu.unicundi.exception.ObjectRequeridException;
 import co.edu.unicundi.lecturaEscritura.lecturaEscristuraProfesor;
 import co.edu.unicundi.pojo.Usuario;
 import java.util.ArrayList;
@@ -34,21 +36,23 @@ public class ServiceProfesor {
             lista.add(usuario);
             new lecturaEscristuraProfesor().crearArchivo(lista);
             return Response.status(Response.Status.CREATED).build();
-        }else{
+        } else if(usuario.getCedula() == null){
+            throw new ObjectRequeridException("Hay campos vacíos");
+        } else {
             return Response.status(Response.Status.EXPECTATION_FAILED).entity("El numero de cedula ya se encuentra registrado").build();
         }
     }
-    
+
     public Response todosProfesores() {
         List<Usuario> lista = new lecturaEscristuraProfesor().verProfesor();
         if (lista.size() != 0) {
             return Response.status(Response.Status.OK).entity(lista).build();
-        }else{
+        } else {
             return Response.status(Response.Status.NOT_ACCEPTABLE).entity("No hay profesores registrados").build();
         }
     }
 
-    public Response editarProfesor(Usuario usuario){
+    public Response editarProfesor(Usuario usuario) {
         List<Usuario> lista = new lecturaEscristuraProfesor().verProfesor();
         boolean validacion = false;
         for (int i = 0; i < lista.size(); i++) {
@@ -61,15 +65,19 @@ public class ServiceProfesor {
                 validacion = true;
             }
         }
-        if(validacion==true){
+        if (validacion == true) {
             new lecturaEscristuraProfesor().crearArchivo(lista);
             return Response.status(Response.Status.OK).entity("Se ha modificado con éxito").build();
-        }else{
-            return Response.status(Response.Status.NOT_MODIFIED).entity("No se encontro el profesor").build();
+        } else if(usuario.getCedula() == null){
+            throw new ObjectRequeridException("Hay campos vacios");
+        }
+        else {
+            throw new ObjectNotFoundException("Materias no encontradas");
         }
     }
-    
-    public Response eliminarProfesor(int id){
+
+    //public Response eliminarProfesor(int id) {
+    public void eliminarProfesor(int id) throws ObjectNotFoundException {
         List<Usuario> lista = new lecturaEscristuraProfesor().verProfesor();
         boolean estado = false;
         for (int i = 0; i < lista.size(); i++) {
@@ -78,16 +86,17 @@ public class ServiceProfesor {
                 estado = true;
             }
         }
-        
-        if(estado == true){
+
+        if (estado == true) {
             new lecturaEscristuraProfesor().crearArchivo(lista);
-            return Response.status(Response.Status.OK).entity("Se elimino correctamente").build();
-        }else{
-            return Response.status(Response.Status.EXPECTATION_FAILED).entity("No se encontro el profesor").build();
+            //return Response.status(Response.Status.OK).entity("Se elimino correctamente").build();
+        } else {
+            throw new ObjectNotFoundException("Profesor no encontrado");
+            //return Response.status(Response.Status.EXPECTATION_FAILED).entity("No se encontro el profesor").build();
         }
     }
-    
-    public Response buscarProfesor(String numero){
+
+    public Response buscarProfesor(String numero) {
         List<Usuario> lista = new lecturaEscristuraProfesor().verProfesor();
         Usuario datos = new Usuario();
         boolean estado = false;
@@ -98,16 +107,20 @@ public class ServiceProfesor {
             }
         }
         if (estado == true) {
-            return Response.status(Response.Status.OK).entity(datos).build();
-        } else {
-            return Response.status(Response.Status.EXPECTATION_FAILED).entity("No se encontro ningún profesor").build();
+            return Response.status(Response.Status.OK).entity(datos).build(); 
+        } else if(numero == null){
+            throw new ObjectRequeridException("Hay campos vacios");
+        }else {
+            throw new ObjectNotFoundException("Profesor no encontrado");
+            //return Response.status(Response.Status.EXPECTATION_FAILED).entity("No se encontro ningún profesor").build();
         }
     }
-    
-    public Response buscarMaterias(String nombre){
+
+    public Response buscarMaterias(String nombre) {
         List<Usuario> lista = new lecturaEscristuraProfesor().verProfesor();
         List<Usuario> busqueda = new ArrayList<>();
         boolean estado = false;
+        
         for (int i = 0; i < lista.size(); i++) {
             List<String> materias = lista.get(i).getMaterias();
             for (int x = 0; x < materias.size(); x++) {
@@ -119,8 +132,11 @@ public class ServiceProfesor {
         }
         if (estado == true) {
             return Response.status(Response.Status.OK).entity(busqueda).build();
+        } else if(nombre == null){
+            throw new ObjectRequeridException("Hay campos vacios");
         } else {
-            return Response.status(Response.Status.EXPECTATION_FAILED).entity("No se encontro profesores").build();
+            throw new ObjectNotFoundException("Materias no encontradas");
+            //return Response.status(Response.Status.EXPECTATION_FAILED).entity("No se encontro profesores").build();
         }
     }
 }

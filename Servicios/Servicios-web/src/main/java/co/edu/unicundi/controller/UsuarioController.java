@@ -5,6 +5,7 @@
  */
 package co.edu.unicundi.controller;
 
+import co.edu.unicundi.exception.ObjectNotFoundException;
 import co.edu.unicundi.logica.ServiceProfesor;
 import co.edu.unicundi.pojo.Usuario;
 import java.io.Serializable;
@@ -12,6 +13,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -69,10 +71,12 @@ public class UsuarioController{
      Elimina a los profesores por id
      */
     @Path("/eliminarProfesor/{numero}")
-    @GET
+    @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     public Response eliminarProfesor(@PathParam("numero") int numero) {
-        return serviceProfesor.eliminarProfesor(numero);
+        ServiceProfesor pro = new ServiceProfesor();
+        pro.eliminarProfesor(numero);
+        return Response.status(Response.Status.NO_CONTENT).build();
         
     }
 
@@ -83,7 +87,10 @@ public class UsuarioController{
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response buscarCedulaProfesor(@PathParam("numero") String numero) {
-        return serviceProfesor.buscarProfesor(numero);
+        ServiceProfesor pro = new ServiceProfesor();
+        pro.buscarProfesor(numero);
+        return Response.status(Response.Status.NO_CONTENT).build();
+        //serviceProfesor.buscarProfesor(numero);
     }
 
     /*
