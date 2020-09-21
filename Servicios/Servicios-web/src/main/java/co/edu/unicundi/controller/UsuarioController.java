@@ -74,10 +74,7 @@ public class UsuarioController{
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     public Response eliminarProfesor(@PathParam("numero") int numero) {
-        ServiceProfesor pro = new ServiceProfesor();
-        pro.eliminarProfesor(numero);
-        return Response.status(Response.Status.NO_CONTENT).build();
-        
+        return serviceProfesor.eliminarProfesor(numero);
     }
 
     /*
@@ -87,10 +84,7 @@ public class UsuarioController{
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response buscarCedulaProfesor(@PathParam("numero") String numero) {
-        ServiceProfesor pro = new ServiceProfesor();
-        pro.buscarProfesor(numero);
-        return Response.status(Response.Status.NO_CONTENT).build();
-        //serviceProfesor.buscarProfesor(numero);
+        return serviceProfesor.buscarProfesor(numero);
     }
 
     /*

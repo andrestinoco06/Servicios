@@ -16,7 +16,7 @@ public class NullPointerExceptionFilter implements ExceptionMapper<NullPointerEx
     @Override
     public Response toResponse(NullPointerException ex) {
         
-        Error error = new Error (ex.getMessage(), "500", "INTERNAL_SERVER_ERROR");
+        Error error = new Error (ex.getMessage(), "5010", "INTERNAL_SERVER_ERROR");
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
         
     }
