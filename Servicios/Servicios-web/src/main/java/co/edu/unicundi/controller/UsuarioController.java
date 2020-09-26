@@ -5,9 +5,10 @@
  */
 package co.edu.unicundi.controller;
 
-import co.edu.unicundi.exception.ObjectNotFoundException;
-import co.edu.unicundi.logica.ServiceProfesor;
-import co.edu.unicundi.pojo.Usuario;
+
+import co.edu.unicundi.service.IUsuarioService;
+import co.edu.unicundi.service.impl.UsuarioServiceImpl;
+import co.edu.unicundi.dto.Usuario;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -31,8 +32,8 @@ import javax.ws.rs.core.Response;
 @Path("/usuario")
 public class UsuarioController{
 
-    @Inject
-    private ServiceProfesor serviceProfesor;
+    @EJB
+    public IUsuarioService serviceProfesor;
     
     /*
         Crea un profesor
@@ -42,7 +43,8 @@ public class UsuarioController{
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response crearUsuario(Usuario usuario) {
-        return serviceProfesor.crearProfesor(usuario);
+        serviceProfesor.crearProfesor(usuario);
+        return Response.status(Response.Status.CREATED).build();
     }
 
     /*
@@ -52,8 +54,7 @@ public class UsuarioController{
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response todosProfesores() {
-        System.out.println("entro al servicio");
-        return serviceProfesor.todosProfesores();
+        return Response.status(Response.Status.OK).entity(serviceProfesor.todosProfesores()).build();
     }
 
     /*
@@ -64,7 +65,8 @@ public class UsuarioController{
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response editarProfesor(Usuario usuario) {
-        return serviceProfesor.editarProfesor(usuario);
+        serviceProfesor.editarProfesor(usuario);
+        return Response.status(Response.Status.OK).entity("Se modifico correctamente").build();
     }
 
     /*
@@ -74,7 +76,8 @@ public class UsuarioController{
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     public Response eliminarProfesor(@PathParam("numero") int numero) {
-        return serviceProfesor.eliminarProfesor(numero);
+        serviceProfesor.eliminarProfesor(numero);
+        return Response.status(Response.Status.OK).entity("Se elimino correctamente").build();
     }
 
     /*
@@ -84,7 +87,7 @@ public class UsuarioController{
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response buscarCedulaProfesor(@PathParam("numero") String numero) {
-        return serviceProfesor.buscarProfesor(numero);
+        return Response.status(Response.Status.OK).entity(serviceProfesor.buscarProfesor(numero)).build();
     }
 
     /*
@@ -94,7 +97,7 @@ public class UsuarioController{
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response buscarMaterias(@PathParam("nombre") String nombre) {
-        return serviceProfesor.buscarMaterias(nombre);
+        return Response.status(Response.Status.OK).entity(serviceProfesor.buscarMaterias(nombre)).build();
     }
-
+  
 }

@@ -15,8 +15,7 @@ public class WebApplicationFilter implements ExceptionMapper<WebApplicationExcep
 
     @Override
     public Response toResponse(WebApplicationException ex) {
-        
-        co.edu.unicundi.controller.pojo.Error error = new co.edu.unicundi.controller.pojo.Error (ex.getMessage(), "404", "NOT_FOUND");
+        co.edu.unicundi.dto.Error error = new co.edu.unicundi.dto.Error (ex.getMessage(), "404", "NOT_FOUND");
         return Response.status(Response.Status.NOT_FOUND).entity(error).build();
         
     }

@@ -9,7 +9,7 @@ import co.edu.unicundi.exception.ObjectExistingException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
-import co.edu.unicundi.controller.pojo.Error;
+import co.edu.unicundi.dto.Error;
 
 
 /**
