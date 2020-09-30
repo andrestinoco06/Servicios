@@ -7,6 +7,9 @@ package co.edu.unicundi.dto;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -14,22 +17,29 @@ import java.util.List;
  */
 public class Usuario implements Serializable{
     
+    @NotNull (message="Campo requerido= Id")
     private int id;
     
+    @NotNull (message="Campo requerido= Nombre")
     private String nombre;
     
+    @NotNull (message="Campo requerido= Apellido")
     private String apellido;
 
+    @NotNull (message="Campo requerido= Materias")
     private List<String> materias;
     
+    @NotNull (message="Campo requerido= Correo")
     private String correo;
     
+    @NotNull (message="Campo requerido= Cedula")
+    @Min (value =9999, message= "Formato Incorrecto")
     private String cedula;
     
     public Usuario(){
         
     }
-
+    
     public Usuario(int id, String nombre, String apellido, List<String> materias, String correo, String cedula) {
         this.id = id;
         this.nombre = nombre;

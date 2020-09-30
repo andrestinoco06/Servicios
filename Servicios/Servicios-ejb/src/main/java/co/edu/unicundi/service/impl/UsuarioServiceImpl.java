@@ -32,7 +32,7 @@ public class UsuarioServiceImpl implements IUsuarioService{
         List<Usuario> lista = new lecturaEscristuraProfesor().verProfesor();
         System.out.println("lee lista  ------ ");
         boolean validacion = true;
-        if (usuario.getCedula() == null || usuario.getNombre() == null || usuario.getApellido() == null || usuario.getCorreo() == null || usuario.getCorreo() == null || usuario.getId() == 0) {
+        /*if (usuario.getCedula() == null || usuario.getNombre() == null || usuario.getApellido() == null || usuario.getCorreo() == null || usuario.getCorreo() == null || usuario.getId() == 0) {
             validacion = false;
             System.out.println("campos vacios  ------ ");
             throw new ObjectRequeridException("Hay campos vacíos");
