@@ -13,6 +13,8 @@ import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -42,7 +44,7 @@ public class UsuarioController{
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response crearUsuario(Usuario usuario) {
+    public Response crearUsuario(@Valid Usuario usuario) {
         serviceProfesor.crearProfesor(usuario);
         return Response.status(Response.Status.CREATED).build();
     }
@@ -64,7 +66,7 @@ public class UsuarioController{
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response editarProfesor(Usuario usuario) {
+    public Response editarProfesor(@Valid Usuario usuario) {
         serviceProfesor.editarProfesor(usuario);
         return Response.status(Response.Status.OK).entity("Se modifico correctamente").build();
     }
@@ -86,7 +88,7 @@ public class UsuarioController{
     @Path("/buscaCedula/{numero}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response buscarCedulaProfesor(@PathParam("numero") String numero) {
+    public Response buscarCedulaProfesor(@Pattern(regexp = "^([0-9])*$", message = "Formato de cedula incorrecto, indicar valores numéricos sin espacios") @Valid @PathParam("numero") String numero) {
         return Response.status(Response.Status.OK).entity(serviceProfesor.buscarProfesor(numero)).build();
     }
 
