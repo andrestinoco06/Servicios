@@ -9,6 +9,9 @@ package co.edu.unicundi.controller;
 import co.edu.unicundi.service.IUsuarioService;
 import co.edu.unicundi.service.impl.UsuarioServiceImpl;
 import co.edu.unicundi.dto.Usuario;
+import co.edu.unicundi.exception.ObjectExistingException;
+import co.edu.unicundi.exception.ObjectNotFoundException;
+import co.edu.unicundi.exception.ObjectRequeridException;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -44,7 +47,7 @@ public class UsuarioController{
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response crearUsuario(@Valid Usuario usuario) {
+    public Response crearUsuario(@Valid Usuario usuario) throws ObjectRequeridException, ObjectExistingException {
         serviceProfesor.crearProfesor(usuario);
         return Response.status(Response.Status.CREATED).build();
     }
@@ -55,7 +58,7 @@ public class UsuarioController{
     @Path("/todosProfesores")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response todosProfesores() {
+    public Response todosProfesores() throws ObjectNotFoundException {
         return Response.status(Response.Status.OK).entity(serviceProfesor.todosProfesores()).build();
     }
 
@@ -66,7 +69,7 @@ public class UsuarioController{
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response editarProfesor(@Valid Usuario usuario) {
+    public Response editarProfesor(@Valid Usuario usuario) throws ObjectRequeridException, ObjectExistingException, ObjectNotFoundException {
         serviceProfesor.editarProfesor(usuario);
         return Response.status(Response.Status.OK).entity("Se modifico correctamente").build();
     }
@@ -77,7 +80,7 @@ public class UsuarioController{
     @Path("/eliminarProfesor/{numero}")
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    public Response eliminarProfesor(@PathParam("numero") int numero) {
+    public Response eliminarProfesor(@PathParam("numero") int numero) throws ObjectNotFoundException {
         serviceProfesor.eliminarProfesor(numero);
         return Response.status(Response.Status.OK).entity("Se elimino correctamente").build();
     }
@@ -88,7 +91,7 @@ public class UsuarioController{
     @Path("/buscaCedula/{numero}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response buscarCedulaProfesor(@Pattern(regexp = "^([0-9])*$", message = "Formato de cedula incorrecto, indicar valores numéricos sin espacios") @Valid @PathParam("numero") String numero) {
+    public Response buscarCedulaProfesor(@Pattern(regexp = "^([0-9])*$", message = "Formato de cedula incorrecto, indicar valores numéricos sin espacios") @Valid @PathParam("numero") String numero) throws ObjectRequeridException, ObjectNotFoundException {
         return Response.status(Response.Status.OK).entity(serviceProfesor.buscarProfesor(numero)).build();
     }
 
@@ -98,7 +101,7 @@ public class UsuarioController{
     @Path("/buscaMaterias/{nombre}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response buscarMaterias(@PathParam("nombre") String nombre) {
+    public Response buscarMaterias(@PathParam("nombre") String nombre) throws ObjectRequeridException, ObjectNotFoundException {
         return Response.status(Response.Status.OK).entity(serviceProfesor.buscarMaterias(nombre)).build();
     }
   
