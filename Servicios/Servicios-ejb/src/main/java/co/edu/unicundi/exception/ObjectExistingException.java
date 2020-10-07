@@ -9,7 +9,7 @@ package co.edu.unicundi.exception;
  *
  * @author johan
  */
-public class ObjectExistingException extends RuntimeException{
+public class ObjectExistingException extends Exception{
 
     public ObjectExistingException(String message) {
         super(message);

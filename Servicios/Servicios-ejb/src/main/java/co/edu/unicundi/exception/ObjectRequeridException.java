@@ -9,7 +9,7 @@ package co.edu.unicundi.exception;
  *
  * @author Gambito
  */
-public class ObjectRequeridException extends RuntimeException{
+public class ObjectRequeridException extends Exception{
 
     public ObjectRequeridException(String message) {
         super(message);

@@ -59,7 +59,7 @@ public class UsuarioServiceImpl implements IUsuarioService{
     }
 
     @Override
-    public List<Usuario> todosProfesores() {
+    public List<Usuario> todosProfesores() throws ObjectNotFoundException{
         List<Usuario> lista = new lecturaEscristuraProfesor().verProfesor();
         if (lista.size() == 0) {
             throw new ObjectNotFoundException("No hay profesores registrados");
@@ -68,7 +68,7 @@ public class UsuarioServiceImpl implements IUsuarioService{
     }
 
     @Override
-    public void editarProfesor(Usuario usuario) {
+    public void editarProfesor(Usuario usuario) throws ObjectRequeridException, ObjectExistingException, ObjectNotFoundException{
         List<Usuario> lista = new lecturaEscristuraProfesor().verProfesor();
         boolean validacion = false;
         if (usuario.getCedula() == null || usuario.getNombre() == null || usuario.getApellido() == null || usuario.getCorreo() == null || usuario.getCorreo() == null || usuario.getId() == 0) {
@@ -115,7 +115,7 @@ public class UsuarioServiceImpl implements IUsuarioService{
     }
 
     @Override
-    public List<Usuario> buscarProfesor(String numero) {
+    public List<Usuario> buscarProfesor(String numero) throws ObjectRequeridException, ObjectNotFoundException{
         
         List<Usuario> lista = new lecturaEscristuraProfesor().verProfesor();
         Usuario datos = new Usuario();
@@ -138,7 +138,7 @@ public class UsuarioServiceImpl implements IUsuarioService{
     }
 
     @Override
-    public List<Usuario> buscarMaterias(String nombre) {
+    public List<Usuario> buscarMaterias(String nombre) throws ObjectRequeridException, ObjectNotFoundException{
         List<Usuario> lista = new lecturaEscristuraProfesor().verProfesor();
         List<Usuario> busqueda = new ArrayList<>();
         boolean estado = false;

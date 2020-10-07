@@ -22,13 +22,13 @@ public interface IUsuarioService {
     
     public void crearProfesor(Usuario usuario) throws ObjectRequeridException, ObjectExistingException;
     
-    public List<Usuario> todosProfesores();
+    public List<Usuario> todosProfesores() throws ObjectNotFoundException;
     
-    public void editarProfesor(Usuario usuario);
+    public void editarProfesor(Usuario usuario) throws ObjectRequeridException, ObjectExistingException, ObjectNotFoundException;
     
     public void eliminarProfesor(int id) throws ObjectNotFoundException;
     
-    public List<Usuario> buscarProfesor(String numero);
+    public List<Usuario> buscarProfesor(String numero) throws ObjectRequeridException, ObjectNotFoundException;
     
-    public List<Usuario> buscarMaterias(String nombre);    
+    public List<Usuario> buscarMaterias(String nombre) throws ObjectRequeridException, ObjectNotFoundException;    
 }
