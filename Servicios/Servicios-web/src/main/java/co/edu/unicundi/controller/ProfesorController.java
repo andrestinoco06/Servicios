@@ -6,9 +6,13 @@
 package co.edu.unicundi.controller;
 
 import co.edu.unicundi.entity.Profesor;
+import co.edu.unicundi.exception.ObjectNotFoundException;
+import co.edu.unicundi.exception.ParamRequiredException;
+import co.edu.unicundi.exception.ParamUsedException;
 import co.edu.unicundi.service.IProfesorService;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -47,4 +51,51 @@ public class ProfesorController {
         return Response.status(Response.Status.CREATED).build();
     }
     
+    /*
+        Crea un profesor
+    */
+    @Path("/eliminar/{numero}")
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response eliminar(@Valid @PathParam("numero") Integer id) {
+        serviceProfesor.eliminar(id);
+        return Response.status(Response.Status.OK).build();
+    }
+    
+    /*
+        Crea un profesor
+    */
+    @Path("/buscarPorId/{numero}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response buscarPorId(@Valid @PathParam("numero") Integer id) throws ObjectNotFoundException {
+        Profesor profesor = serviceProfesor.listarPorId(id);
+        return Response.status(Response.Status.OK).entity(profesor).build();
+    }
+    
+    /*
+        Crea un profesor
+    */
+    @Path("/listar")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response listar() {
+         List<Profesor> profesor = serviceProfesor.listar();
+        return Response.status(Response.Status.OK).entity(profesor).build();
+    }
+    
+    /*
+        Crea un profesor
+    */
+    @Path("/editar")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response editar(@Valid Profesor profesor) throws ObjectNotFoundException, ParamRequiredException, ParamUsedException {
+        serviceProfesor.editar(profesor);
+        return Response.status(Response.Status.OK).build();
+    }
 }
