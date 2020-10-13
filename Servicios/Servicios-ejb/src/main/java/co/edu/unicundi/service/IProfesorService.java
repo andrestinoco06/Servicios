@@ -6,6 +6,9 @@
 package co.edu.unicundi.service;
 
 import co.edu.unicundi.entity.Profesor;
+import co.edu.unicundi.exception.ObjectNotFoundException;
+import co.edu.unicundi.exception.ParamRequiredException;
+import co.edu.unicundi.exception.ParamUsedException;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -18,9 +21,9 @@ public interface IProfesorService {
     
     public List<Profesor> listar();
     
-    public Profesor listarPorId(Integer id);
+    public Profesor listarPorId(Integer id) throws ObjectNotFoundException;
     
-    public void editar(Profesor profesor);
+    public void editar(Profesor profesor) throws ObjectNotFoundException, ParamRequiredException, ParamUsedException;
     
     public void guardar(Profesor profesor);
     

@@ -6,11 +6,14 @@
 package co.edu.unicundi.repo.impl;
 
 import co.edu.unicundi.entity.Profesor;
+import co.edu.unicundi.exception.ObjectNotFoundException;
 import co.edu.unicundi.repo.IProfesor;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -24,17 +27,18 @@ public class ProfesorRepo implements IProfesor{
     
     @Override
     public List<Profesor> listar() {
-        return null;
+        TypedQuery<Profesor> listaProfesor = this.entity.createNamedQuery("Profesor.listarTodo", Profesor.class);
+        return listaProfesor.getResultList();
     }
 
     @Override
-    public Profesor listarPorId(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Profesor listarPorId(Integer id){
+        return this.entity.find(Profesor.class, id);
     }
 
     @Override
     public void editar(Profesor profesor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        entity.merge(profesor);
     }
 
     @Override
@@ -43,8 +47,16 @@ public class ProfesorRepo implements IProfesor{
     }
 
     @Override
-    public void eliminar(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void eliminar(Profesor profesor) {
+        this.entity.remove(profesor);
+    }
+
+    @Override
+    public Integer validarCedula(String cedula, Integer id) {
+        Query query = this.entity.createNamedQuery("Profesor.validarCedula", Integer.class);
+        query.setParameter("cedula", cedula);
+        query.setParameter("id", id);
+        return (Integer) query.getSingleResult();
     }
     
 }

@@ -11,9 +11,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
@@ -22,32 +25,37 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "profesor")
+@NamedQueries({
+    @NamedQuery(name = "Profesor.listarTodo", query = "SELECT p FROM Profesor p"),
+    @NamedQuery(name = "Profesor.validarCedula", query = "SELECT COUNT(p.cedula)  FROM Profesor p WHERE p.cedula = :cedula AND p.id <> :id"),
+})
 public class Profesor implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
-    @NotNull(message="Campo requerido")
+    @NotNull(message="Nombre requerido")
     @Size(max=25)
     @Column(name = "nombre", length = 25, nullable = false)
     private String nombre;
     
-    @NotNull(message="Campo requerido")
+    @NotNull(message="Apellido requerido")
     @Size(max=25)
     @Column(name = "apellido", length = 25, nullable = false)
     private String apellido;
     
-    @NotNull(message="Campo requerido")
+    @NotNull(message="Cedula requerido")
     @Size(max=10)
-    @Column(name = "cedula", length = 10, nullable = false)
+    @Column(name = "cedula", length = 10, nullable = false, unique = true)
     private String cedula;
     
-    @NotNull(message="Campo requerido")
-    @Column(name = "correo", length = 60, nullable = false)
+    @NotNull(message="Correo requerido")
+    @Pattern(message = "Error, correo del profesor invalido", regexp = "^\\S{​​1,}​​@\\S{​​2,}​​\\.\\S{​​2,}​​$")
+    @Column(name = "correo", length = 60, nullable = false, unique = true)
     private String correo;
     
-    @NotNull(message="Campo requerido")
+    @NotNull(message="Edad requerido")
     @Min(value = 18, message="Minimo 18")
     @Column(name = "edad", nullable = false)
     private Integer edad;

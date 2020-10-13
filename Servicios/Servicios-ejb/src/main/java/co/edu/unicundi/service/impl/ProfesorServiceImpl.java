@@ -6,9 +6,14 @@
 package co.edu.unicundi.service.impl;
 
 import co.edu.unicundi.entity.Profesor;
+import co.edu.unicundi.exception.ObjectNotFoundException;
+import co.edu.unicundi.exception.ParamRequiredException;
+import co.edu.unicundi.exception.ParamUsedException;
 import co.edu.unicundi.repo.IProfesor;
 import co.edu.unicundi.service.IProfesorService;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -24,17 +29,34 @@ public class ProfesorServiceImpl implements IProfesorService{
     
     @Override
     public List<Profesor> listar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return repo.listar();
     }
 
     @Override
-    public Profesor listarPorId(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Profesor listarPorId(Integer id) throws ObjectNotFoundException {
+        Profesor profesor = repo.listarPorId(id);
+        if(profesor!=null){
+            return profesor;
+        }else{
+            throw new ObjectNotFoundException("Profesor no existe");
+        }
     }
 
     @Override
-    public void editar(Profesor profesor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void editar(Profesor profesor) throws ObjectNotFoundException, ParamRequiredException, ParamUsedException {
+        if(profesor.getId() == null){
+            throw new ParamRequiredException("Id requerido para la edición");
+        }else{
+            this.listarPorId(profesor.getId());
+            Integer validacion = repo.validarCedula(profesor.getCedula(), profesor.getId());
+            if(validacion != 0){
+                throw new ParamUsedException("Error, cedula existente");
+            }else{
+                repo.editar(profesor);
+            }
+            
+        }
+        
     }
 
     @Override
@@ -44,7 +66,17 @@ public class ProfesorServiceImpl implements IProfesorService{
 
     @Override
     public void eliminar(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            Profesor profesor = this.listarPorId(id);
+            if(profesor == null){
+                throw new ObjectNotFoundException("Profesor no existe");
+            }else{
+                repo.eliminar(profesor);
+            }
+        } catch (ObjectNotFoundException ex) {
+            Logger.getLogger(ProfesorServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
     
 }

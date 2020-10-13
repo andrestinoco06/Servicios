@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 import javax.validation.constraints.Size;
 
 /**
@@ -30,6 +32,7 @@ public class Usuario implements Serializable{
     private List<String> materias;
     
     @NotNull (message="Campo requerido= Correo")
+    @Pattern(message = "Error, correo invalido", regexp = "/^(([^<>()\\[\\]\\\\.,;:\\s@”]+(\\.[^<>()\\[\\]\\\\.,;:\\s@”]+)*)|(“.+”))@((\\[[0–9]{1,3}\\.[0–9]{1,3}\\.[0–9]{1,3}\\.[0–9]{1,3}])|(([a-zA-Z\\-0–9]+\\.)+[a-zA-Z]{2,}))$/")
     private String correo;
     
     @NotNull (message="Campo requerido= Cedula")

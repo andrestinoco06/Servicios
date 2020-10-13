@@ -6,6 +6,7 @@
 package co.edu.unicundi.repo;
 
 import co.edu.unicundi.entity.Profesor;
+import co.edu.unicundi.exception.ObjectNotFoundException;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -24,5 +25,7 @@ public interface IProfesor {
     
     public void guardar(Profesor profesor);
     
-    public void eliminar(Integer id);
+    public void eliminar(Profesor profesor);
+    
+    public Integer validarCedula(String cedula, Integer id);
 }
