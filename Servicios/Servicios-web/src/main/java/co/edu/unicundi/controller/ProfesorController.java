@@ -46,7 +46,7 @@ public class ProfesorController {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response guardar(@Valid Profesor profesor) {
+    public Response guardar(@Valid Profesor profesor) throws ParamUsedException {
         serviceProfesor.guardar(profesor);
         return Response.status(Response.Status.CREATED).build();
     }
@@ -91,7 +91,7 @@ public class ProfesorController {
         Crea un profesor
     */
     @Path("/editar")
-    @GET
+    @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response editar(@Valid Profesor profesor) throws ObjectNotFoundException, ParamRequiredException, ParamUsedException {
