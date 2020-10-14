@@ -30,4 +30,50 @@ public class Libro implements Serializable {
     
     @Column(name = "editorial", nullable = false, length = 25)
     private String editorial;
+ 
+    private Autor autor;
+
+    public Libro() {
+    }
+
+    public Libro(Integer id, String nombre, String editorial, Autor autor) {
+        this.id = id;
+        this.nombre = nombre;
+        this.editorial = editorial;
+        this.autor = autor;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getEditorial() {
+        return editorial;
+    }
+
+    public void setEditorial(String editorial) {
+        this.editorial = editorial;
+    }
+
+    public Autor getAutor() {
+        return autor;
+    }
+
+    public void setAutor(Autor autor) {
+        this.autor = autor;
+    }
+    
+    
 }
