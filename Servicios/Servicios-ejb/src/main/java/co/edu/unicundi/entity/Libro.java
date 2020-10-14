@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -31,6 +33,9 @@ public class Libro implements Serializable {
     @Column(name = "editorial", nullable = false, length = 25)
     private String editorial;
  
+    @ManyToOne
+    //JoinColumn hace referencia a como esta en la DB.
+    @JoinColumn(name = "id_autor", nullable = false)
     private Autor autor;
 
     public Libro() {
@@ -67,6 +72,7 @@ public class Libro implements Serializable {
         this.editorial = editorial;
     }
 
+    //@JsonIgnore
     public Autor getAutor() {
         return autor;
     }

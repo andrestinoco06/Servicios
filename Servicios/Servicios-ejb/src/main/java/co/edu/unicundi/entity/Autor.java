@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,6 +33,9 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "autor")
+@NamedQueries({
+    @NamedQuery(name = "Autor.listarTodo", query = "SELECT p FROM Autor a"),    
+})
 public class Autor implements Serializable {
     
     @Id
@@ -47,7 +51,7 @@ public class Autor implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
     
-    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Libro> libro;
 
     public Autor() {
