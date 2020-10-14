@@ -6,6 +6,7 @@
 package co.edu.unicundi.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,6 +29,9 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Profesor.listarTodo", query = "SELECT p FROM Profesor p"),
     @NamedQuery(name = "Profesor.validarCedula", query = "SELECT COUNT(p.cedula)  FROM Profesor p WHERE p.cedula = :cedula AND p.id <> :id"),
+    @NamedQuery(name = "Profesor.validarCorreo", query = "SELECT COUNT(p.correo)  FROM Profesor p WHERE p.correo = :correo AND p.id <> :id"),
+    @NamedQuery(name = "Profesor.buscarCedula", query = "SELECT COUNT(p.cedula) FROM Profesor p WHERE p.cedula = :cedula"),
+    @NamedQuery(name = "Profesor.buscarCorreo", query = "SELECT COUNT(p.correo) FROM Profesor p WHERE p.correo = :correo")
 })
 public class Profesor implements Serializable {
     
@@ -51,7 +55,7 @@ public class Profesor implements Serializable {
     private String cedula;
     
     @NotNull(message="Correo requerido")
-    @Pattern(message = "Error, correo del profesor invalido", regexp = "^\\S{​​1,}​​@\\S{​​2,}​​\\.\\S{​​2,}​​$")
+    @Pattern(message = "Error, correo del profesor invalido", regexp = "^[^@]+@[^@]+\\.[a-zA-Z]{2,}$")
     @Column(name = "correo", length = 60, nullable = false, unique = true)
     private String correo;
     
@@ -60,17 +64,23 @@ public class Profesor implements Serializable {
     @Column(name = "edad", nullable = false)
     private Integer edad;
 
+    @NotNull(message="Fecha de nacimiento requerida")
+    @Pattern(message = "Error, formato de fecha dd/mm/aaaa", regexp = "^(?:3[01]|[12][0-9]|0?[1-9])([\\-/.])(0?[1-9]|1[1-2])\\1\\d{4}$")
+    @Column(name = "fecha", length = 25, nullable = false)
+    private String fecha;
+    
     public Profesor(){
         
     }
     
-    public Profesor(Integer id, String nombre, String apellido, String cedula, String correo, Integer edad) {
+    public Profesor(Integer id, String nombre, String apellido, String cedula, String correo, Integer edad, String fecha) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.cedula = cedula;
         this.correo = correo;
         this.edad = edad;
+        this.fecha = fecha;
     }
     
     public Integer getId() {
@@ -119,6 +129,14 @@ public class Profesor implements Serializable {
 
     public void setEdad(Integer edad) {
         this.edad = edad;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
     
     

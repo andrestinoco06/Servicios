@@ -25,7 +25,7 @@ public interface IProfesorService {
     
     public void editar(Profesor profesor) throws ObjectNotFoundException, ParamRequiredException, ParamUsedException;
     
-    public void guardar(Profesor profesor);
+    public void guardar(Profesor profesor) throws ParamUsedException;
     
     public void eliminar(Integer id);
     

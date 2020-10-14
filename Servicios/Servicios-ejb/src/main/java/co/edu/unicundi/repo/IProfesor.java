@@ -28,4 +28,10 @@ public interface IProfesor {
     public void eliminar(Profesor profesor);
     
     public Integer validarCedula(String cedula, Integer id);
+    
+    public Integer validarCorreo(String correo, Integer id);
+    
+    public Integer buscarCorreo(String correo);
+    
+    public Integer buscarCedula(String cedula);
 }

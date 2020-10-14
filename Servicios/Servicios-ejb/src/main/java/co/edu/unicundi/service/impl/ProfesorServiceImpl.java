@@ -49,18 +49,27 @@ public class ProfesorServiceImpl implements IProfesorService{
         }else{
             this.listarPorId(profesor.getId());
             Integer validacion = repo.validarCedula(profesor.getCedula(), profesor.getId());
+            Integer validacionCorreo = repo.validarCorreo(profesor.getCorreo(), profesor.getId());
             if(validacion != 0){
                 throw new ParamUsedException("Error, cedula existente");
-            }else{
-                repo.editar(profesor);
             }
-            
+            if(validacionCorreo != 0){
+                throw new ParamUsedException("Error, correo existente");
+            }
+            repo.editar(profesor);
         }
-        
     }
 
     @Override
-    public void guardar(Profesor profesor) {
+    public void guardar(Profesor profesor) throws ParamUsedException{
+        Integer validacionCorreo = repo.buscarCorreo(profesor.getCorreo());
+        Integer validacionCedula = repo.buscarCedula(profesor.getCedula());
+        if(validacionCedula != 0){
+            throw new ParamUsedException("Error, cedula existente");
+        }
+        if(validacionCorreo != 0){
+            throw new ParamUsedException("Error, correo existente");
+        }
         repo.guardar(profesor);
     }
 

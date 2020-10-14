@@ -8,6 +8,7 @@ package co.edu.unicundi.repo.impl;
 import co.edu.unicundi.entity.Profesor;
 import co.edu.unicundi.exception.ObjectNotFoundException;
 import co.edu.unicundi.repo.IProfesor;
+import static java.lang.Integer.parseInt;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -56,7 +57,32 @@ public class ProfesorRepo implements IProfesor{
         Query query = this.entity.createNamedQuery("Profesor.validarCedula", Integer.class);
         query.setParameter("cedula", cedula);
         query.setParameter("id", id);
-        return (Integer) query.getSingleResult();
+        String p = query.getSingleResult().toString();
+        return parseInt(p);
     }
     
+    @Override
+    public Integer validarCorreo(String correo, Integer id) {
+        Query query = this.entity.createNamedQuery("Profesor.validarCorreo", Integer.class);
+        query.setParameter("correo", correo);
+        query.setParameter("id", id);
+        String p = query.getSingleResult().toString();
+        return parseInt(p);
+    }
+
+    @Override
+    public Integer buscarCorreo(String correo) {
+        Query query = this.entity.createNamedQuery("Profesor.buscarCorreo", Integer.class);
+        query.setParameter("correo", correo);
+        String p = query.getSingleResult().toString();
+        return parseInt(p);
+    }
+
+    @Override
+    public Integer buscarCedula(String cedula) {
+        Query query = this.entity.createNamedQuery("Profesor.buscarCedula", Integer.class);
+        query.setParameter("cedula", cedula);
+        String p = query.getSingleResult().toString();
+        return parseInt(p);
+    }
 }
