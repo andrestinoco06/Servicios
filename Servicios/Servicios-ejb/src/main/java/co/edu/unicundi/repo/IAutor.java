@@ -6,24 +6,28 @@
 package co.edu.unicundi.repo;
 
 import co.edu.unicundi.entity.Autor;
-import co.edu.unicundi.entity.Profesor;
 import java.util.List;
 import javax.ejb.Local;
 
 /**
  *
- * @author Gambito
+ * @author johan
  */
 @Local
-public interface IAutorRepo {
+public interface IAutor {
+    public List<Autor> listar(boolean filtro);
     
-     public List<Autor> listar();
+    public List<Autor> listarOpcion3();
     
-    public Profesor listarPorId(Integer id);
-    
-    public void editar(Autor autor);
+    public Autor listarPorId(Integer id);
     
     public void guardar(Autor autor);
     
+    public void editar(Autor autor);
+   
     public void eliminar(Autor autor);
+    
+    public void cambiarEstado(boolean estado, int id);
+    
+    public boolean buscarLibrosAutor(int id);
 }

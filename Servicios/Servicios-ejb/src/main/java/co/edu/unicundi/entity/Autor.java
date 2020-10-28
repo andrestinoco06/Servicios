@@ -6,6 +6,8 @@
 package co.edu.unicundi.entity;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -21,22 +23,26 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author johan
+ * @author ASUS-PC
  */
 @Entity
+@XmlRootElement
+@XmlAccessorType(value = XmlAccessType.FIELD)
 @Table(name = "autor")
 @NamedQueries({
-    @NamedQuery(name = "Autor.listarTodo", query = "SELECT p FROM Autor a"),    
+    @NamedQuery(name = "Autor.listarTodo", query = "SELECT a FROM Autor a "),
+    @NamedQuery(name = "Autor.listarAutores", query = "SELECT a.id, a.nombre, a.apellido, a.fecha FROM Autor a"),
+    @NamedQuery(name = "Autor.buscarCantidadLibros", query = "SELECT COUNT(a.autor) FROM Libro a WHERE a.autor = :id"),
+    @NamedQuery(name = "Autor.cambiarEstado", query = "UPDATE Autor p SET p.estado = :estado WHERE p.id = :id")
 })
-public class Autor implements Serializable {
+public class Autor implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,18 +57,24 @@ public class Autor implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
     
+    @XmlTransient
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Libro> libro;
 
+    @Column(name = "estado", nullable = false)
+    private boolean estado;
+    
     public Autor() {
+    
     }
-
-    public Autor(Integer id, String nombre, String apellido, Date fecha, List<Libro> libro) {
+    
+    public Autor(Integer id, String nombre, String apellido, Date fecha, List<Libro> libro, boolean estado) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.fecha = fecha;
         this.libro = libro;
+        this.estado = estado;
     }
 
     public Integer getId() {
@@ -90,6 +102,8 @@ public class Autor implements Serializable {
     }
 
     public Date getFecha() {
+        /*DateFormat df = new SimpleDateFormat("yy:MM:dd:HH:mm:ss");
+        return df.format(fecha);*/
         return fecha;
     }
 
@@ -103,6 +117,13 @@ public class Autor implements Serializable {
 
     public void setLibro(List<Libro> libro) {
         this.libro = libro;
+    }            
+
+    public boolean getEstado() {
+        return estado;
     }
-    
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }   
 }

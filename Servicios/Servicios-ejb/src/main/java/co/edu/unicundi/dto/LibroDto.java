@@ -3,17 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.edu.unicundi.entity;
+package co.edu.unicundi.dto;
 
 import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -22,34 +14,26 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ASUS-PC
+ * @author johan
  */
-@Entity
 @XmlRootElement
 @XmlAccessorType(value = XmlAccessType.FIELD)
-@Table(name = "libro")
-public class Libro implements Serializable {
+public class LibroDto implements Serializable {
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "nombre", nullable = false, length = 25)
     private String nombre;
     
-    @Column(name = "editorial", nullable = false, length = 15)
     private String editorial;
     
-    @ManyToOne 
     @XmlTransient
-    @JoinColumn(name = "id_autor", nullable = false)
-    private Autor autor;
+    private AutorDto autor;
 
-    public Libro() {
+    public LibroDto() {
     
     }
     
-    public Libro(Integer id, String nombre, String editorial, Autor autor) {
+    public LibroDto(Integer id, String nombre, String editorial, AutorDto autor) {
         this.id = id;
         this.nombre = nombre;
         this.editorial = editorial;
@@ -81,11 +65,11 @@ public class Libro implements Serializable {
     }
 
     @JsonIgnore
-    public Autor getAutor() {
+    public AutorDto getAutor() {
         return autor;
     }
 
-    public void setAutor(Autor autor) {
+    public void setAutor(AutorDto autor) {
         this.autor = autor;
     }
     
