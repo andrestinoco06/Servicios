@@ -78,11 +78,11 @@ public class ProfesorController {
     /*
         Crea un profesor
     */
-    @Path("/listar")
+    @Path("/listar/{todos}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response listar() {
+    public Response listar(@Valid @PathParam("todos") boolean opcion) {
          List<Profesor> profesor = serviceProfesor.listar();
         return Response.status(Response.Status.OK).entity(profesor).build();
     }

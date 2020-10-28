@@ -18,8 +18,8 @@ public class ObjectNotFoundExceptionFilter implements ExceptionMapper<ObjectNotF
     @Override
     public Response toResponse(ObjectNotFoundException ex) {
         
-        Error error = new Error (ex.getMessage(), "404", "NOT_FOUND");
-        return Response.status(Response.Status.NO_CONTENT).entity(error).build();
+        Error error = new Error (ex.getMessage(), "409", "CONFLICT");
+        return Response.status(Response.Status.CONFLICT).entity(error).build();
         
     }
     
