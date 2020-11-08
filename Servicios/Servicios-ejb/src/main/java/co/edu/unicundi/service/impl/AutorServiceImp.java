@@ -74,13 +74,13 @@ public class AutorServiceImp implements IAutorService {
     @Override
     public void eliminar(Integer id) throws ObjectNotFoundException {
         Autor autor = this.listarPorId(id);
-        //if(repo.buscarLibrosAutor(id) == true){
-        if(autor.getLibro().equals(null)){
+        if(repo.buscarLibrosAutor(id) == true){
+        //if(autor.getLibro().size() == 0){
             repo.eliminar(autor);
+            //System.out.println("Entro a eliminar bien");
         }else{
-            throw new ObjectNotFoundException("Error, hay libros correspondientes al autor. " + autor.getLibro().toString());
+            throw new ObjectNotFoundException("Error, hay libros correspondientes al autor. ");
         }
-        
     }
 
     @Override
@@ -93,5 +93,17 @@ public class AutorServiceImp implements IAutorService {
         } else {
             throw new ObjectNotFoundException("Autor no existe.");
         }
+    }
+
+    @Override
+    public List<AutorDto> listarGenerico() {
+        List<Autor> listaAutor = repo.listarGenerico();
+        List<AutorDto> listaAutorDto = new ArrayList<>();
+        for (Autor lista : listaAutor) {
+            ModelMapper modelMapper = new ModelMapper();
+            AutorDto autorDto = modelMapper.map(lista, AutorDto.class);
+            listaAutorDto.add(autorDto);
+        }
+        return listaAutorDto;
     }
 }

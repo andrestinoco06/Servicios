@@ -30,4 +30,6 @@ public interface IAutor {
     public void cambiarEstado(boolean estado, int id);
     
     public boolean buscarLibrosAutor(int id);
+ 
+    public List<Autor> listarGenerico();
 }

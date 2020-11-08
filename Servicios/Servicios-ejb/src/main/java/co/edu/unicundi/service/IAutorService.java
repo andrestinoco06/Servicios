@@ -30,5 +30,5 @@ public interface IAutorService {
     
     public void cambiarEstado(boolean estado, int id) throws  ObjectNotFoundException;
     
-    
+    public List<AutorDto> listarGenerico();
 }

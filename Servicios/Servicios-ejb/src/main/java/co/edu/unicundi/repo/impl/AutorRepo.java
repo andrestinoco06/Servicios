@@ -6,6 +6,7 @@
 package co.edu.unicundi.repo.impl;
 
 import co.edu.unicundi.entity.Autor;
+import co.edu.unicundi.repo.AbstractFacade;
 import co.edu.unicundi.repo.IAutor;
 import static java.lang.Integer.parseInt;
 import java.util.List;
@@ -24,11 +25,20 @@ import javax.persistence.criteria.CriteriaQuery;
  * @author johan
  */
 @Stateless
-public class AutorRepo implements IAutor {
+public class AutorRepo extends AbstractFacade<Autor, Integer> implements IAutor{
 
     @PersistenceContext(unitName = "co.edu.unicundi_Servicios-ejb_ejb_1.0-SNAPSHOTPU")
     private EntityManager entity;
 
+    public AutorRepo() {
+        super(Autor.class);
+    }
+    
+    @Override
+    protected EntityManager getEntityManager() {
+        return entity;
+    }
+    
     @Override
     public List<Autor> listar(boolean filtro) {
         if (filtro == true) {
@@ -69,9 +79,10 @@ public class AutorRepo implements IAutor {
 
     @Override
     public void cambiarEstado(boolean estado, int id) {
-        Query query = this.entity.createNamedQuery("Autor.cambiarEstado", Integer.class);
+        Query query = this.entity.createNamedQuery("Autor.cambiarEstado");
         query.setParameter("estado", estado);
         query.setParameter("id", id);
+        query.executeUpdate();
         /*Query q = entity.createQuery("UPDATE Autor p SET p.estado = :estado WHERE p.id = :id");
         q.setParameter("estado", estado);
         q.setParameter("id", id);
@@ -89,4 +100,10 @@ public class AutorRepo implements IAutor {
             return false;
         }
     }
+
+    @Override
+    public List<Autor> listarGenerico() {
+        return listarGenericoA("Autor.listarTodo");
+    }
+    
 }
