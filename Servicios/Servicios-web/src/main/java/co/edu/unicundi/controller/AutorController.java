@@ -88,4 +88,12 @@ public class AutorController {
         service.cambiarEstado(true, id);
         return Response.status(Response.Status.OK).build();       
     }      
+    
+    @Path("/listarGenerico")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response listarGenerico()  {
+        List<AutorDto> listarAutor = service.listarGenerico();
+        return Response.status(Response.Status.OK).entity(listarAutor).build();
+    }
 }
